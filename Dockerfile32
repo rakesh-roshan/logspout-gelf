@@ -1,4 +1,4 @@
-FROM golang:alpine as build
+FROM yukoff/golang-32bit:alpine as build
 MAINTAINER timo.taskinen@vincit.com
 LABEL maintainer "timo.taskinen@vincit.com"
 ENV LOGSPOUT_VERSION=3.2.2
@@ -21,6 +21,6 @@ RUN echo 'import ( _ "github.com/rakesh-roshan/logspout-gelf-1" )' >> /go/src/gi
 RUN go get -d -v ./...
 RUN go build -v -ldflags "-X main.Version=$(cat VERSION)" -o ./bin/logspout
 
-FROM alpine:latest
+FROM yukoff/alpine-32bit:latest
 COPY --from=build /go/src/github.com/gliderlabs/logspout/bin/logspout /go/bin/logspout
 ENTRYPOINT ["/go/bin/logspout"]
